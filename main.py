@@ -16,3 +16,4 @@ print(float('123.456') * 10 % 10)
 print(int(float('123.456') * 10) % 10)
 
 #new comment
+2+2
