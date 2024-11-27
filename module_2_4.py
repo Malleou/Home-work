@@ -13,5 +13,5 @@ for i in numbers:
     else:
         not_primes += [i]
 
-print(primes)
-print(not_primes)
+print('Primes:',primes)
+print('Not Primes:', not_primes)
