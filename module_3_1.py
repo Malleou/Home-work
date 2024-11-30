@@ -16,11 +16,9 @@ def is_contains(string, list_to_search):
     boolean = False
 
     for text in list_to_search:
-        #boolean = False
         text = text.lower()
         if string == text:
             boolean = True
-            #print(boolean)
     count_calls()
     return boolean
 
