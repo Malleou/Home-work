@@ -3,11 +3,11 @@ def control(email):
     domains_test = ['.ru', '.com', '.net']
     boolean = False
 
-    for domain in domains_test:
+    for domain in domains_test:  # Поиск нужного домена
         if email[-len(domain):] == domain:
             boolean = True
             break
-    for dog in email:
+    for dog in email:  # Подсчёт символа @
         if dog == '@':
             counter += 1
     if counter != 1:
@@ -18,7 +18,7 @@ def control(email):
 def send_email(massage, recipient, *, sender = 'university.help@gmail.com'):
     #recipient = recipient.lower()
     #sender = sender.lower()
-
+# Выполнение условий задачи:
     if control(recipient) == False or control(sender) == False:
         print('Невозможно отправить письмо с адреса', sender, 'на адрес', recipient)
     elif recipient == sender:
