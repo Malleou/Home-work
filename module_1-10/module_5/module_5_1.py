@@ -12,7 +12,7 @@ class House:
         """Метод выводит в консоль числа от 1 до new_floor
         если new_floor больше 1 и НЕ больше number_of_floors"""
 
-        if 1 <= new_floor > self.number_of_floors:
+        if new_floor > self.number_of_floors or new_floor < 1:
             print('Такого этажа не существует')
         else:
             for num in range(1, new_floor + 1):
