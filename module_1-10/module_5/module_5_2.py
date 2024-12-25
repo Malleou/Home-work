@@ -38,8 +38,8 @@ class House:
 h1 = House('ЖК Эльбрус', 10)
 h2 = House('ЖК Акация', 20)
 
-# h1.go_tu(5)
-# h2.go_tu(10)
+# h1.go_to(5)
+# h2.go_to(10)
 h1.__str__()
 h2.__str__()
 print(len(h1))
