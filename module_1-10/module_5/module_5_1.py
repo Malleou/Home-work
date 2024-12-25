@@ -8,7 +8,7 @@ class House:
 
 
 
-    def go_tu(self, new_floor):
+    def go_to(self, new_floor):
         """Метод выводит в консоль числа от 1 до new_floor
         если new_floor больше 1 и НЕ больше number_of_floors"""
 
