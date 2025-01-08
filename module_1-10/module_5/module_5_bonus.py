@@ -1,6 +1,8 @@
 import time
 
 class User:
+    """Содержит информацию о каждом юзере:
+    Никтнейм, хешированный пароль и возраст"""
 
     def __init__(self, nickname, password, age):
 
@@ -11,6 +13,9 @@ class User:
 
 
 class Video:
+    """Содержит информациюо каждом видео:
+    Название / заголовок, продолжительность, время для продолжения просмотра,
+    возростное ограничение"""
 
     def __init__(self, title, duration, time_now = 0, adult_mode = False):
 
@@ -23,6 +28,7 @@ class Video:
 
 
 # def valid_password(password: str):
+#    """Проверка на правильность пароля"""
 #
 #     len_ = True
 #     if len(password) < 8:
@@ -36,6 +42,11 @@ class Video:
 
 
 class UrTube:
+    """Основная логика работы.
+    users - список юзеров
+    videos - список видео
+    Функции:
+    log_in, register, log_out, add, get_videos, watch_video"""
 
     current_user = None
 
@@ -46,6 +57,7 @@ class UrTube:
 
 
     def log_in(self, login, password):
+        """Вход на сайт"""
 
         if login in self.users:
             if self.users[login][0] == hash(password):
@@ -59,6 +71,7 @@ class UrTube:
 
 
     def register(self, nickname, password, age):
+        """Регистрация"""
 
         progress = False
 
@@ -77,6 +90,8 @@ class UrTube:
 
 
     def log_out(self):
+        """Выход"""
+        
         if self.current_user:
             print(f'Вы вышли из аккаунта {self.current_user}')
             self.current_user = None
@@ -84,6 +99,8 @@ class UrTube:
 
 
     def add(self):
+        """Загрузка видео"""
+        
         title = input('Введите название видео: ')
         duration = int(input('Введите продолжительность видео в секундах: '))
         time_now = 0
@@ -101,6 +118,7 @@ class UrTube:
 
 
     def get_videos(self, search_text):
+        """Поиск видео"""
 
         search_text = search_text.lower()
         return [video.title for video in self.videos if search_text  in video.title.lower()]
@@ -108,6 +126,7 @@ class UrTube:
 
 
     def watch_video(self, name_video):
+        """Просмотр видео"""
 
         wid_to_watch = next((video for video in self.videos if video.title == name_video), None)
 
