@@ -85,6 +85,7 @@ class UrTube:
             self.users[nickname] = (hash(password), age)
             print(f'\n{nickname} успешно зарегистрирован')
             progress = True
+            self.current_user = nickname
         return progress
 
 
@@ -98,22 +99,28 @@ class UrTube:
 
 
 
-    def add(self):
+    def add(self, *videos):
         """Загрузка видео"""
-        
-        title = input('Введите название видео: ')
-        duration = int(input('Введите продолжительность видео в секундах: '))
-        time_now = 0
-        choice = int(input('Установить возрастное ограничение?\n1 - Да\n2 - Нет\n'))
-        if choice == 1:
-            adult_mode = True
-        else:
-            adult_mode = False
-        if any(video.title == title for video in self.videos):
-            print('Видео с таким названием уже существует')
-            return
-        self.videos.append(Video(title, duration, time_now, adult_mode))
-        print(f'Видео {title} успешно добавлено')
+
+        for video in videos:
+            if any(v.title == video.title for v in self.videos):
+                print(f'Видео с названием "{video.title}" уже существует')
+                continue
+            self.videos.append(video)
+            print(f'Видео "{video.title}" успешно добавлено')
+        # title = input('Введите название видео: ')
+        # duration = int(input('Введите продолжительность видео в секундах: '))
+        # time_now = 0
+        # choice = int(input('Установить возрастное ограничение?\n1 - Да\n2 - Нет\n'))
+        # if choice == 1:
+        #     adult_mode = True
+        # else:
+        #     adult_mode = False
+        # if any(video.title == title for video in self.videos):
+        #     print('Видео с таким названием уже существует')
+        #     return
+        # self.videos.append(Video(title, duration, time_now, adult_mode))
+        # print(f'Видео {title} успешно добавлено')
 
 
 
@@ -128,24 +135,40 @@ class UrTube:
     def watch_video(self, name_video):
         """Просмотр видео"""
 
-        wid_to_watch = next((video for video in self.videos if video.title == name_video), None)
-
-        if wid_to_watch:
-            if self.current_user:
-                if wid_to_watch.adult_mode and self.users[self.current_user][1] >= 18:
-                    print('\nПриятного просмотра!')
-                    print('время видео:')
-                    for i in range(1, wid_to_watch.duration + 1):
-                        print(i, end=' ')
-                        wid_to_watch.time_now += 1
-                        time.sleep(1)
-                    print('Конец видео')
-                else:
-                    print('\nВам нет 18-ти лет. Пожалуйста покиньте страницу')
-            else:
+        video_to_watch = next((video for video in self.videos if video.title == name_video), None)
+        if video_to_watch:
+            if not self.current_user:
                 print('\nВойдите в аккаунт, чтобы смотреть видео')
+                return
+
+            if video_to_watch.adult_mode and self.users[self.current_user][1] < 18:
+                print('\nВам нет 18-ти лет. Пожалуйста покиньте страницу')
+                return
+
+            print('\nПриятного просмотра!')
+            for i in range(1, video_to_watch.duration + 1):
+                print(i, end=' ')
+                video_to_watch.time_now += 1
+                time.sleep(1)
+            print('\nКонец видео')
         else:
             print('\nВидео не найдено')
+        # if wid_to_watch:
+        #     if self.current_user:
+        #         if wid_to_watch.adult_mode and self.users[self.current_user][1] >= 18:
+        #             print('\nПриятного просмотра!')
+        #             print('время видео:')
+        #             for i in range(1, wid_to_watch.duration + 1):
+        #                 print(i, end=' ')
+        #                 wid_to_watch.time_now += 1
+        #                 time.sleep(1)
+        #             print('Конец видео')
+        #         else:
+        #             print('\nВам нет 18-ти лет. Пожалуйста покиньте страницу')
+        #     else:
+        #         print('\nВойдите в аккаунт, чтобы смотреть видео')
+        # else:
+        #     print('\nВидео не найдено')
 
 
 
@@ -155,8 +178,7 @@ v1 = Video('Лучший язык программирования 2024 года
 v2 = Video('Для чего девушкам парень программист?', 10, adult_mode=True)
 
 # Добавление видео
-ur.add()
-ur.add()
+ur.add(v1, v2)
 
 # Проверка поиска
 print(ur.get_videos('лучший'))
